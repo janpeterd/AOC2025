@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aoc2025"
+version = "0.1.0.rc.1"
+description = "Advent of code 2025"
+authors = [
+    { name = "Jan-Peter Dhallé", email = "janpeter.dhalle@vito.be" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.12.5,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aoc2025"]
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+
+[tool.pixi.workspace]
+authors = ["Jan-Peter Dhallé <janpeter.dhalle@vito.be>"]
+channels = ["conda-forge"]
+name = "2025"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tool.pixi.tasks]
+test = "pytest tests/"
+lint = "ruff check --fix src/"
+format = "ruff format src/"
+
+[tool.pixi.dependencies]
+python = ">=3.12"
+
+[tool.pixi.feature.dev.dependencies]
+pytest = ">=8.0"
+pytest-cov = ">=4.0"
+ruff = ">=0.8"
+ty = ">=0.0.2,<0.0.3"
+
+[tool.pixi.environments]
+default = { features = ["dev"], solve-group = "default" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
